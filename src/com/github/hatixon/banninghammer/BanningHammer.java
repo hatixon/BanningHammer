@@ -1,4 +1,4 @@
-package com.gmail.macca499.banninghammer;
+package com.github.hatixon.banninghammer;
 
 import java.util.logging.Logger;
 import org.bukkit.entity.*;

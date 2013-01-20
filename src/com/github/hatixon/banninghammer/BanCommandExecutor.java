@@ -1,4 +1,4 @@
-package com.gmail.macca499.banninghammer;
+package com.github.hatixon.banninghammer;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

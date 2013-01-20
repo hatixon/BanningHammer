@@ -1,5 +1,5 @@
 name: BanningHammer
-main: com.gmail.macca499.banninghammer.BanningHammer
+main: com.github.hatixon.banninghammer.BanningHammer
 version: Beta
 
 commands:
