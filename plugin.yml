@@ -1,6 +1,6 @@
 name: BanningHammer
 main: com.github.hatixon.banninghammer.BanningHammer
-version: Beta
+version: 0.2
 
 commands:
   bh:
