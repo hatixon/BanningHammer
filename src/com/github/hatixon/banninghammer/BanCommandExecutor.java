@@ -18,7 +18,7 @@ public class BanCommandExecutor implements CommandExecutor
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[])
 	{
-		String pre = new StringBuilder().append(ChatColor.RED).append("[BanningHammer] ").toString();
+		String pre = new StringBuilder().append(ChatColor.RED).append("[BanningHammer] ").append(ChatColor.YELLOW).toString();
 		if(cmd.getName().equalsIgnoreCase("bh"))
 		{
 			if(sender instanceof ConsoleCommandSender)
@@ -27,33 +27,14 @@ public class BanCommandExecutor implements CommandExecutor
 			}else
 			{
 				Player player = (Player)sender;
-				String uName = player.getName();
 				if(!(args.length == 0))
 				{
-					player.sendMessage(new StringBuilder(pre).append("Parameters are 'on' and 'off' only!").toString());
+					player.sendMessage(new StringBuilder(pre).append("No parameters needed!").toString());
 				}else
 				{
 					if(player.hasPermission("bh.admin"))
 					{	
-						if(!plugin.getConfig().contains(new StringBuilder().append("Toggled.").append(uName).toString()))
-						{
-							plugin.getConfig().set(new StringBuilder().append("Toggled.").append(uName).toString(), true);
-							plugin.saveConfig();
-							player.sendMessage(new StringBuilder(pre).append("Activated!").toString());
-							return true;
-						}
-						if(plugin.getConfig().getBoolean(new StringBuilder().append("Toggled.").append(uName).toString()) == true)
-						{
-							plugin.getConfig().set(new StringBuilder().append("Toggled.").append(uName).toString(), false);
-							plugin.saveConfig();
-							player.sendMessage(new StringBuilder(pre).append("Deactivated!").toString());
-						}else
-						if(plugin.getConfig().getBoolean(new StringBuilder().append("Toggled.").append(uName).toString()) == false)
-						{
-							plugin.getConfig().set(new StringBuilder().append("Toggled.").append(uName).toString(), true);
-							plugin.saveConfig();
-							player.sendMessage(new StringBuilder(pre).append("Activated!").toString());
-						}
+						plugin.togglePlayer(player);
 					}else
 					{
 						player.sendMessage(new StringBuilder(pre).append("You don't have permission").toString());
@@ -63,4 +44,5 @@ public class BanCommandExecutor implements CommandExecutor
 		}
 		return false;
 	}
+	
 }
