@@ -1,0 +1,12 @@
+name: BanningHammer
+main: com.gmail.macca499.banninghammer.BanningHammer
+version: Beta
+
+commands:
+  bh:
+    description: Turns BanningHammer on and off!
+    permission: bh.admin
+    
+permissions:
+  bh.admin:
+    default: op
