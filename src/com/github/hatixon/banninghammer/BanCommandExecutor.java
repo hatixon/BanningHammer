@@ -27,22 +27,16 @@ public class BanCommandExecutor implements CommandExecutor
 			}else
 			{
 				Player player = (Player)sender;
-				if(!(args.length == 0))
-				{
-					player.sendMessage(new StringBuilder(pre).append("No parameters needed!").toString());
+				if(player.hasPermission("bh.admin"))
+				{	
+					plugin.togglePlayer(player);
 				}else
 				{
-					if(player.hasPermission("bh.admin"))
-					{	
-						plugin.togglePlayer(player);
-					}else
-					{
-						player.sendMessage(new StringBuilder(pre).append("You don't have permission").toString());
-					}
+					player.sendMessage(new StringBuilder(pre).append("You don't have permission").toString());
 				}
 			}
 		}
-		return false;
+		return true;
 	}
 	
 }
