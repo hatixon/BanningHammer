@@ -7,18 +7,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class BanCommandExecutor implements CommandExecutor
+public class CommandBH implements CommandExecutor
 {
 	public static BanningHammer plugin;
-	
-	public BanCommandExecutor(BanningHammer instance)
+	private final String pre = new StringBuilder().append(ChatColor.RED).append("[BanningHammer] ").append(ChatColor.YELLOW).toString();
+	public CommandBH(BanningHammer instance)
 	{
 		plugin = instance;
 	}
 	
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String args[])
 	{
-		String pre = new StringBuilder().append(ChatColor.RED).append("[BanningHammer] ").append(ChatColor.YELLOW).toString();
+		
 		if(cmd.getName().equalsIgnoreCase("bh"))
 		{
 			if(sender instanceof ConsoleCommandSender)

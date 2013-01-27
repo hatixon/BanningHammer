@@ -22,19 +22,22 @@ public class HitListener implements Listener
 	public void touchytouchy(PlayerInteractEntityEvent event)
 	{
 		Player player = (Player)event.getPlayer();
-		Player rightclicked = (Player)event.getRightClicked();
-		
-		if(plugin.getConfig().getBoolean(new StringBuilder().append("Toggled.").append(player.getName()).toString()) == true)
-		{
-			if(player.getItemInHand().getTypeId() == plugin.getConfig().getInt("BanItemId"))
+		Entity rightclick = event.getRightClicked();
+		if(rightclick instanceof Player)
+		{	
+			Player rightclicked = (Player)rightclick;
+			if(plugin.getConfig().getBoolean(new StringBuilder().append("Toggled.").append(player.getName()).toString()) == true)
 			{
-				plugin.banPlayer(player, rightclicked);
-			}
-			if(player.getItemInHand().getTypeId() == plugin.getConfig().getInt("EncasingTool"))
-			{
-				trapPlayer(rightclicked);
-				player.sendMessage(new StringBuilder(pre).append(rightclicked.getName()).append(" has been trapped by you").toString());
-				
+				if(player.getItemInHand().getTypeId() == plugin.getConfig().getInt("BanItemId"))
+				{
+					plugin.banPlayer(player, rightclicked);
+				}
+				if(player.getItemInHand().getTypeId() == plugin.getConfig().getInt("EncasingTool"))
+				{
+					trapPlayer(rightclicked);
+					player.sendMessage(new StringBuilder(pre).append(rightclicked.getName()).append(" has been trapped by you").toString());
+					
+				}
 			}
 		}
 	}
@@ -57,6 +60,12 @@ public class HitListener implements Listener
 						if(banner.getItemInHand().getTypeId() == plugin.getConfig().getInt("BanItemId"))
 						{
 							plugin.banPlayer(banner, bannee);
+						}
+						if(banner.getItemInHand().getTypeId() == plugin.getConfig().getInt("EncasingTool"))
+						{
+							trapPlayer(bannee);
+							banner.sendMessage(new StringBuilder(pre).append(bannee.getName()).append(" has been trapped by you").toString());
+							
 						}
 					}
 				}
@@ -91,7 +100,15 @@ public class HitListener implements Listener
 				}
     		}
         }
-        player.getLocation().add(0,2,0).getBlock().setTypeId(plugin.getConfig().getInt("BlockForEncasing"));
-        player.getLocation().add(0,-1,0).getBlock().setTypeId(plugin.getConfig().getInt("BlockForEncasing"));
+        
+        if(player.getLocation().add(0,2,0).getBlock().isEmpty())
+        {
+        	player.getLocation().add(0,2,0).getBlock().setTypeId(plugin.getConfig().getInt("BlockForEncasing"));
+        }
+        
+        if(player.getLocation().add(0,2,0).getBlock().isEmpty())
+        {
+        	player.getLocation().add(0,-1,0).getBlock().setTypeId(plugin.getConfig().getInt("BlockForEncasing"));
+        }
     }
 }

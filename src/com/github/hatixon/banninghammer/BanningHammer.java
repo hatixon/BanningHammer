@@ -16,13 +16,14 @@ public class BanningHammer extends JavaPlugin
 {
     public final Logger logger = Logger.getLogger("Minecraft");
     public final HitListener hitS = new HitListener(this);
-    public final String pre = new StringBuilder().append(ChatColor.RED).append("[BanningHammer] ").append(ChatColor.YELLOW).toString();
+    private final String pre = new StringBuilder().append(ChatColor.RED).append("[BanningHammer] ").append(ChatColor.YELLOW).toString();
 	public void onEnable()
 	{
 		logger.info("The BanningHammer has been activated!");
 		PluginManager pm = this.getServer().getPluginManager();
 		pm.registerEvents(hitS, this);
-        getCommand("bh").setExecutor(new BanCommandExecutor(this));
+        getCommand("bh").setExecutor(new CommandBH(this));
+        getCommand("confuse").setExecutor(new CommandConfuse(this));
         loadConfig();
         if(isUpdated())
         {
@@ -59,7 +60,7 @@ public class BanningHammer extends JavaPlugin
 		}else
 		if(comSplit.length == 2)
 		{
-			banner.performCommand(new StringBuilder(comSplit[0]).append(" ").append(uName).append(" ").append(comSplit[1]).append(reason).toString());
+			banner.performCommand(new StringBuilder(comSplit[0]).append(" ").append(uName).append(" ").append(comSplit[1]).append(" ").append(reason).toString());
 		}else
 		if(comSplit.length == 3)
 		{
