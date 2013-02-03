@@ -26,7 +26,7 @@ public class HitListener implements Listener
 		if(rightclick instanceof Player)
 		{	
 			Player rightclicked = (Player)rightclick;
-			if(plugin.getConfig().getBoolean(new StringBuilder().append("Toggled.").append(player.getName()).toString()) == true)
+			if(plugin.isActivated(player.getName()))
 			{
 				if(player.getItemInHand().getTypeId() == plugin.getConfig().getInt("BanItemId"))
 				{
@@ -55,7 +55,7 @@ public class HitListener implements Listener
 				{
 					Player bannee = (Player)e1;
 					Player banner = (Player)e2;
-					if(plugin.getConfig().getBoolean(new StringBuilder().append("Toggled.").append(banner.getName()).toString()) == true)
+					if(plugin.isActivated(banner.getName()))
 					{
 						if(banner.getItemInHand().getTypeId() == plugin.getConfig().getInt("BanItemId"))
 						{
@@ -106,9 +106,17 @@ public class HitListener implements Listener
         	player.getLocation().add(0,2,0).getBlock().setTypeId(plugin.getConfig().getInt("BlockForEncasing"));
         }
         
-        if(player.getLocation().add(0,2,0).getBlock().isEmpty())
+        if(player.getLocation().add(0,-1,0).getBlock().isEmpty())
         {
         	player.getLocation().add(0,-1,0).getBlock().setTypeId(plugin.getConfig().getInt("BlockForEncasing"));
         }
     }
+	@EventHandler
+	public void onPlayerLogoff(PlayerQuitEvent e)
+	{
+		if(plugin.isActivated(e.getPlayer().getName()))
+		{
+			plugin.togglePlayer(e.getPlayer());
+		}
+	}
 }

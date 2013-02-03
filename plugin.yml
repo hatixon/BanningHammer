@@ -1,15 +1,19 @@
 name: BanningHammer
 main: com.github.hatixon.banninghammer.BanningHammer
-version: 0.2
+version: 0.3
 
 commands:
   bh:
-    description: Turns BanningHammer on and off!
-    permission: bh.admin
+    description: /bh toggle to turn features on ad off
+    permission: bh
   confuse:
     description: Warps a players screen!
-    permission: bh.admin
+    permission: bh.confuse
     
 permissions:
-  bh.admin:
+  bh.confuse:
+    default: op
+  bh.toggle:
+    default: op
+  bh.change:
     default: op

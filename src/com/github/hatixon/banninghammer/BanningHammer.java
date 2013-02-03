@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
@@ -11,11 +13,12 @@ import org.bukkit.entity.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
-
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class BanningHammer extends JavaPlugin
 {
     public final Logger logger = Logger.getLogger("Minecraft");
     public final HitListener hitS = new HitListener(this);
+    public Map activated;
     private final String pre = new StringBuilder().append(ChatColor.RED).append("[BanningHammer] ").append(ChatColor.YELLOW).toString();
 	public void onEnable()
 	{
@@ -25,12 +28,19 @@ public class BanningHammer extends JavaPlugin
         getCommand("bh").setExecutor(new CommandBH(this));
         getCommand("confuse").setExecutor(new CommandConfuse(this));
         loadConfig();
-        if(isUpdated())
+        if(getConfig().getBoolean("CheckForUpdates"))
         {
-        	logger.info(new StringBuilder(pre).append("An updated version of BanningHammer is available at http://dev.bukkit.org/server-mods/banninghammer").toString());
-        }	
+        	if(isUpdated())
+        	{
+        		logger.info(new StringBuilder(pre).append("An updated version of BanningHammer is available at http://dev.bukkit.org/server-mods/banninghammer").toString());
+        	}
+        }
 	}
-
+	
+	public BanningHammer()
+	{
+		activated = new HashMap();
+	}
 	public void loadConfig()
 	{
 		getConfig().addDefault("BanItemId", Integer.valueOf(293));
@@ -38,8 +48,9 @@ public class BanningHammer extends JavaPlugin
 		getConfig().addDefault("BanReason", "You were banned by the BanHammer");
 		getConfig().addDefault("EncasingTool", Integer.valueOf(352));
 		getConfig().addDefault("BlockForEncasing", Integer.valueOf(7));
+		getConfig().addDefault("CheckForUpdates", true);
         getConfig().options().copyDefaults(true);
-        saveConfig();		
+        saveConfig();
 	}
 	
 	public void onDisable()
@@ -68,21 +79,30 @@ public class BanningHammer extends JavaPlugin
 		}
 	}
 	
-	public void togglePlayer(Player player)
+	public boolean togglePlayer(Player player)
 	{
 		String uName = player.getName();
-		String pre = new StringBuilder().append(ChatColor.RED).append("[BanningHammer] ").append(ChatColor.YELLOW).toString();
-		if(getConfig().getBoolean(new StringBuilder().append("Toggled.").append(uName).toString()))
+		if(activated.containsKey(uName))	
 		{
-			getConfig().set(new StringBuilder().append("Toggled.").append(uName).toString(), false);
-			player.sendMessage(new StringBuilder(pre).append("Deactivated!").toString());
+			activated.remove(uName);
+			return false;
 		}else
 		{
-			getConfig().set(new StringBuilder().append("Toggled.").append(uName).toString(), true);
-			player.sendMessage(new StringBuilder(pre).append("Activated!").toString());
-			return;
+			activated.put(uName, "");
+			return true;
 		}
 	}
+	
+	public boolean isActivated(String uName)
+	{
+		if(activated.containsKey(uName))
+		{
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
     public String getLatest()
     {
         StringBuilder responseData = new StringBuilder();
@@ -118,3 +138,5 @@ public class BanningHammer extends JavaPlugin
     	return updated;
     }
 }
+
+	
