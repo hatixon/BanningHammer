@@ -34,9 +34,30 @@ public class HitListener implements Listener
 				}
 				if(player.getItemInHand().getTypeId() == plugin.getConfig().getInt("EncasingTool"))
 				{
+					if(rightclicked.hasPermission("bh.bypass"))
+					{
+						player.sendMessage(new StringBuilder(pre).append("You can not encase this player!").toString());
+						return;
+					}
 					trapPlayer(rightclicked);
 					player.sendMessage(new StringBuilder(pre).append(rightclicked.getName()).append(" has been trapped by you").toString());
-					
+				}
+				if(player.getItemInHand().getTypeId() == plugin.getConfig().getInt("FreezingTool"))
+				{
+					if(rightclicked.hasPermission("bh.bypass"))
+					{
+						player.sendMessage(new StringBuilder(pre).append("You can not freeze this player!").toString());
+						return;
+					}
+					if(plugin.freezePlayer(rightclicked))
+					{
+						player.sendMessage(new StringBuilder(pre).append(rightclicked.getName()).append(" has been frozen!").toString());
+						rightclicked.sendMessage(new StringBuilder(pre).append("You have been frozen!").toString());
+					}else
+					{
+						player.sendMessage(new StringBuilder(pre).append(rightclicked.getName()).append(" has been unfrozen!").toString());
+						rightclicked.sendMessage(new StringBuilder(pre).append("You have been unfrozen!").toString());
+					}
 				}
 			}
 		}
@@ -63,9 +84,30 @@ public class HitListener implements Listener
 						}
 						if(banner.getItemInHand().getTypeId() == plugin.getConfig().getInt("EncasingTool"))
 						{
+							if(bannee.hasPermission("bh.bypass"))
+							{
+								banner.sendMessage(new StringBuilder(pre).append("You can not encase this player!").toString());
+								return;
+							}
 							trapPlayer(bannee);
 							banner.sendMessage(new StringBuilder(pre).append(bannee.getName()).append(" has been trapped by you").toString());
-							
+						}
+						if(banner.getItemInHand().getTypeId() == plugin.getConfig().getInt("FreezingTool"))
+						{
+							if(bannee.hasPermission("bh.bypass"))
+							{
+								banner.sendMessage(new StringBuilder(pre).append("You can not freeze this player!").toString());
+								return;
+							}
+							if(plugin.freezePlayer(bannee))
+							{
+								banner.sendMessage(new StringBuilder(pre).append(bannee.getName()).append(" has been frozen!").toString());
+								bannee.sendMessage(new StringBuilder(pre).append("You have been frozen!").toString());
+							}else
+							{
+								banner.sendMessage(new StringBuilder(pre).append(bannee.getName()).append(" has been unfrozen!").toString());
+								bannee.sendMessage(new StringBuilder(pre).append("You have been unfrozen!").toString());
+							}
 						}
 					}
 				}
@@ -117,6 +159,24 @@ public class HitListener implements Listener
 		if(plugin.isActivated(e.getPlayer().getName()))
 		{
 			plugin.togglePlayer(e.getPlayer());
+		}
+	}
+	@EventHandler
+	public void frozenPlayerMove(PlayerMoveEvent e)
+	{
+		if(plugin.frozenPlayers.contains(e.getPlayer()))
+		{
+			e.getPlayer().sendMessage(new StringBuilder().append(ChatColor.RED).append("You are frozen!").toString());
+			e.setTo(e.getFrom());
+		}
+	}
+	@EventHandler
+	public void playerInteract(PlayerInteractEvent e)
+	{
+		if(plugin.frozenPlayers.contains(e.getPlayer()))
+		{
+			e.getPlayer().sendMessage(new StringBuilder().append(ChatColor.RED).append("You are frozen!").toString());
+			e.setCancelled(true);
 		}
 	}
 }

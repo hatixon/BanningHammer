@@ -47,7 +47,6 @@ public class CommandBH implements CommandExecutor
 							player.sendMessage(pre +
 									"Deactivated!");
 						}
-						
 					}else
 					{
 						player.sendMessage(new StringBuilder(pre).append("You don't have permission").toString());
@@ -93,7 +92,6 @@ public class CommandBH implements CommandExecutor
 						}
 						plugin.getConfig().set("BanItemId", tool);				
 						plugin.saveConfig();
-
 						player.sendMessage(new StringBuilder(pre).append("Banning tool changed to: ").append(bName).toString());
 					}else
 					if(param2.equalsIgnoreCase("EncaseTool"))
@@ -169,14 +167,19 @@ public class CommandBH implements CommandExecutor
 					String banT = Material.getMaterial(plugin.getConfig().getInt("BanItemId")).toString();
 					String caseT = Material.getMaterial(plugin.getConfig().getInt("EncasingTool")).toString();
 					String caseB = Material.getMaterial(plugin.getConfig().getInt("BlockForEncasing")).toString();
-					
+					String caseF = Material.getMaterial(plugin.getConfig().getInt("FreezingTool")).toString();
 					player.sendMessage(pre +
 										"\nBanning Tool: "+
 										banT +
 										"\nEncasing Tool: " +
 										caseT +
 										"\nEncasing Block: " +
-										caseB);
+										caseB +
+										"\nFreezing Tool: " +
+										caseF);
+				}else
+				{
+					player.sendMessage(new StringBuilder(pre).append("/bh help").toString());
 				}
 			}
 		}

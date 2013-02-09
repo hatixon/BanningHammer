@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ public class BanningHammer extends JavaPlugin
     public final HitListener hitS = new HitListener(this);
     public Map activated;
     private final String pre = new StringBuilder().append(ChatColor.RED).append("[BanningHammer] ").append(ChatColor.YELLOW).toString();
+    public final ArrayList<Player> frozenPlayers = new ArrayList<Player>();
 	public void onEnable()
 	{
 		logger.info("The BanningHammer has been activated!");
@@ -27,6 +29,7 @@ public class BanningHammer extends JavaPlugin
 		pm.registerEvents(hitS, this);
         getCommand("bh").setExecutor(new CommandBH(this));
         getCommand("confuse").setExecutor(new CommandConfuse(this));
+        getCommand("freeze").setExecutor(new CommandFreeze(this));
         loadConfig();
         if(getConfig().getBoolean("CheckForUpdates"))
         {
@@ -48,6 +51,7 @@ public class BanningHammer extends JavaPlugin
 		getConfig().addDefault("BanReason", "You were banned by the BanHammer");
 		getConfig().addDefault("EncasingTool", Integer.valueOf(352));
 		getConfig().addDefault("BlockForEncasing", Integer.valueOf(7));
+		getConfig().addDefault("FreezingTool", Integer.valueOf(79));
 		getConfig().addDefault("CheckForUpdates", true);
         getConfig().options().copyDefaults(true);
         saveConfig();
@@ -137,6 +141,19 @@ public class BanningHammer extends JavaPlugin
     	}
     	return updated;
     }
+
+	public boolean freezePlayer(Player player) 
+	{
+		if(frozenPlayers.contains(player))
+		{
+			frozenPlayers.remove(player);
+			return false;
+		}else
+		{
+			frozenPlayers.add(player);
+			return true;
+		}
+	}
 }
 
 	

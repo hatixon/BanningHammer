@@ -62,6 +62,11 @@ public class CommandConfuse implements CommandExecutor
                 	Player player1 = arr[i];
                 	if(player1.getName().toLowerCase().equals(player.toLowerCase()))
                 	{
+            			if(player1.hasPermission("bh.bypass"))
+            			{
+            				sender.sendMessage(new StringBuilder(pre).append("You can not confuse this player!").toString());
+            				return true;
+            			}
                 		player1.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, time, 1));
                 		sender.sendMessage(new StringBuilder(pre).append(player1.getName()).append(" has been confused for ").append(time).append(" ticks").toString());
                 		return true;

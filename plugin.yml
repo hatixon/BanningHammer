@@ -9,7 +9,10 @@ commands:
   confuse:
     description: Warps a players screen!
     permission: bh.confuse
-    
+  freeze:
+    description: Freezes a player in place!
+    permission: bh.freeze
+        
 permissions:
   bh.confuse:
     default: op
