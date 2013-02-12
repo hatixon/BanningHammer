@@ -52,7 +52,7 @@ public class BanningHammer extends JavaPlugin
 		getConfig().addDefault("EncasingTool", Integer.valueOf(352));
 		getConfig().addDefault("BlockForEncasing", Integer.valueOf(7));
 		getConfig().addDefault("FreezingTool", Integer.valueOf(79));
-		getConfig().addDefault("CheckForUpdates", true);
+		getConfig().addDefault("CheckForUpdates", false);
         getConfig().options().copyDefaults(true);
         saveConfig();
 	}
