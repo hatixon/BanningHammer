@@ -25,6 +25,7 @@ public class CommandFreeze implements CommandExecutor
 				sender.sendMessage(new StringBuilder(pre).append("Please specify a player you would like to freeze!").toString());
 				return true;
 			}
+			
 			if(sender.hasPermission("bh.freeze"))
 			{
                 Player arr[] = plugin.getServer().getOnlinePlayers();
